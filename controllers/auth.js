@@ -20,7 +20,7 @@ exports.login = async (req, res, next) => {
  
       let friend = friends.find((friend) => friend.email === email);
       if (!friend) {
-        return res.status(400).json({ msg: "User not found" });
+        return res.status(401).json({ msg: "Your record not found!" });
       } else {
         // create new user
 
@@ -32,6 +32,7 @@ exports.login = async (req, res, next) => {
           empid: friend.empid,
           phone: friend.phone,
           otp: otp,
+          prefrences:["","",""],
         });
         await user.save();
         // send otp
@@ -60,12 +61,12 @@ exports.verify = async (req, res, next) => {
         // check if user exists
         let user = await User.findOne ({email:email });
         if(!user){
-            return res.status(400).json({msg:"User not found"});
+            return res.status(401).json({msg:"User not found"});
         }
         // check if otp matches
         if(user.otp !== otp){
           console.log(user.otp,otp);
-            return res.status(400).json({msg:"Invalid OTP"});
+            return res.status(401).json({msg:"Invalid OTP"});
         }
         // update otp and isverified
         const token = jwt.sign({id:user._id},jwtSecretKey,{expiresIn:"40d"});
@@ -76,7 +77,7 @@ exports.verify = async (req, res, next) => {
         // send token
         // generate token with expiry on 20 jan 2023
         
-        return res.status(200).json({msg:"User verified successfully",token:token});
+        return res.status(200).json({msg:"User verified successfully",token:token,data:user});
     } catch (err) {
         console.log(err);
         return res.status(500).json({msg:"An Error Occured :("});

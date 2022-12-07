@@ -6,14 +6,24 @@ const friends = require("../data/friends");
 exports.update = async (req, res, next) => {
 
     try {
-        const user = await User.findById(req.user.id);
+        
+        // get phone qoute and prefrences from req.body
+        // find user by id and update
+        const { phone, qoute, prefrences } = req.body;
+        let user = await User.findById(req.user.id);
         if (!user) {
             return res.status(400).json({ msg: "User not found" });
         }
-        user.prefrences=req.body.prefrences;
-        user.qoute=req.body.qoute;
-        await (await user.save());
-        return res.status(200).json({ msg: "Profile Updated" ,data:user});
+        console.log(prefrences);
+        user.prefrences=prefrences;
+        user.qoute=qoute;
+        user.phone=phone;
+        user.isprofilecomplete=true;
+        // find by id 
+        console.log(user);
+        await user.save();
+        
+        return res.status(200).json({user});
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: "An Error Occured :(" });

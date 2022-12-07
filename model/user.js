@@ -28,18 +28,22 @@ var userSchema = new Schema({
     },
     phone:{
         type:String,
-        required:true
+        default:""
     },
     // list of strings
     prefrences:[{
         type:String,
-        required:true
     }],
     // ref another user
     xmasFriend:{
         type:Schema.Types.ObjectId,
         ref:'User'
     },
+    isprofilecomplete:{
+        type:Boolean,
+        default:false
+    },
+
     qoute:{
         type:String,
         default:""

@@ -5,7 +5,8 @@
 
 
 
-    module.exports = (req, res, next) => {
+    module.exports = (req, res, next) => {console.log(req.body);
+
         try {
             const token = req.body.token;
             const decoded = jwt.verify(token, jwtSecretKey);
