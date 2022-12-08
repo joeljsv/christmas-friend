@@ -83,7 +83,7 @@ exports.showAllFriends = async (req, res, next) => {
         }
         const list = [];
         users.forEach(user => {
-            list.push({ name: user.name, quote: user.qoute,user_id:user._id });
+            list.push({ name: user.name, quote: user.qoute,user_id:user._id,phone:user.phone,prefrences:user.prefrences,gender:user.gender,empid:user.empid  });
         });
         return res.status(200).json({joinedUsers:list});
     } catch (err) {

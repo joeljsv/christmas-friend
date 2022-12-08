@@ -24,7 +24,7 @@ var userSchema = new Schema({
     },
     empid:{
         type:String,
-        required:true
+        default:""
     },
     phone:{
         type:String,
